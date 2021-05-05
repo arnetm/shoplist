@@ -5,7 +5,7 @@ import * as Font from 'expo-font';
 import Feather from '@expo/vector-icons/Feather'
 import { useFonts, Nunito_400Regular as NunitoRegular, Nunito_700Bold as NunitoBold } from '@expo-google-fonts/nunito';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import Home from './src/screens/home';
+import Home from './screens/home';
 
 // The theme we'll be using for our navigator
 const MyTheme = {
