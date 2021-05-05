@@ -1,39 +1,43 @@
 import React, {useState, useEffect} from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Product from '../components/product';
+import {clearAsyncStorage, getProductItems} from '../utils/asyncStorage';
 
 export default function App() {
 
   const [product, setProduct] = useState();
   const [productItems, setProductItems] = useState([]);
 
-  useEffect(() => {
-    AsyncStorage.getItem(STORAGE_KEY).then((value) => {
-      if (value) {
+  useEffect(
+    () => {
+      updateListCountries();
+    }, []
+  );
+  
+  // useEffect(() => {
+  //   AsyncStorage.getItem(STORAGE_KEY).then((value) => {
+  //     if (value) {
 
-        const jsonValue = JSON.parse(value);
+  //       const jsonValue = JSON.parse(value);
 
-        console.log(jsonValue);
-        setProductItems(jsonValue);
-      }
-    });
-  }, []);
+  //       //console.log(jsonValue);
+  //       setProductItems(jsonValue);
+  //     }
+  //   });
+  // }, []);
 
   const addProduct = () => {
     Keyboard.dismiss();
-
     setProductItems([...productItems, product])
     setProduct(null);
 
-    const jsonValue = JSON.stringify(productItems);
-    console.log(jsonValue);
+    //const jsonValue = JSON.stringify(productItems);
 
-    AsyncStorage.setItem(STORAGE_KEY, jsonValue);
+    //AsyncStorage.setItem(STORAGE_KEY, jsonValue);
 
   }
 
-  const completeProduct = (index) => {
+  const removeProduct = (index) => {
     let itemsCopy = [...productItems];
     itemsCopy.splice(index, 1);
     setProductItems(itemsCopy)
@@ -57,7 +61,7 @@ export default function App() {
           {
             productItems.map((item, index) => {
               return (
-                <TouchableOpacity key={index}  onPress={() => completeProduct(index)}>
+                <TouchableOpacity key={index}  onPress={() => removeProduct(index)}>
                   <Product text={item} /> 
                 </TouchableOpacity>
               )
@@ -85,6 +89,11 @@ export default function App() {
     </View>
   );
 }
+
+const updateListCountries = async () => {
+  const productTest = await getProductItems();
+  console.log(productTest);
+} 
 
 const styles = StyleSheet.create({
   container: {
@@ -132,4 +141,3 @@ const styles = StyleSheet.create({
   addText: {},
 });
 
-export const STORAGE_KEY = 'random';
