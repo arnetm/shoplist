@@ -1,40 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView } from 'react-native';
 import Product from '../components/product';
-import {clearAsyncStorage, getProductItems} from '../utils/asyncStorage';
 
 export default function App() {
 
   const [product, setProduct] = useState();
   const [productItems, setProductItems] = useState([]);
 
-  useEffect(
-    () => {
-      updateListCountries();
-    }, []
-  );
-  
-  // useEffect(() => {
-  //   AsyncStorage.getItem(STORAGE_KEY).then((value) => {
-  //     if (value) {
-
-  //       const jsonValue = JSON.parse(value);
-
-  //       //console.log(jsonValue);
-  //       setProductItems(jsonValue);
-  //     }
-  //   });
-  // }, []);
-
   const addProduct = () => {
     Keyboard.dismiss();
     setProductItems([...productItems, product])
     setProduct(null);
-
-    //const jsonValue = JSON.stringify(productItems);
-
-    //AsyncStorage.setItem(STORAGE_KEY, jsonValue);
-
   }
 
   const removeProduct = (index) => {
